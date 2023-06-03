@@ -15,7 +15,7 @@ const root=(ext: string)=> `https://github.com/kakashi-69-xd/proton-xd-env/${ext
 
 
 
-export const templateRepo=(template: string): string=> `https://github.com/kakashi-69-xd/templates/${template}.git`;
+export const templateRepo=(template: string): string=> `https://github.com/kakashi-69-xd/proton-xd-templates/${template}.git`;
 
 const libPath=()=> `./proton_xd/bin/${Deno.build.os}/proton_xd`;
 
