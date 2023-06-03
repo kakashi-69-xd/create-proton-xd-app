@@ -1,7 +1,9 @@
 import { panic,ARGS,templateRepo,denoJsonc,config,HELP,root } from "./env.ts";
-import Wasm from "./ffi.ts";
 import prompts from "npm:prompts";
 import { rgb24 } from "https://deno.land/std@0.188.0/fmt/colors.ts";
+import sgw from "npm:@powercord/simple-git-wasm";
+
+
 
 export default class Api {
   private args: Map<string,string>=new Map();
@@ -11,6 +13,7 @@ export default class Api {
   constructor() {//done
     let argv=Deno.args;
     if(argv.includes("--help")) help();
+    
     
     this.path=argv.length<1?"my-app":argv[0]!;
     
@@ -43,7 +46,7 @@ export default class Api {
     
     Deno.chdir(this.path);
     
-    this.createEnv(templateRepo(`${await this.confirmExtention()}/${(await this.confirmTemplate()).toLowerCase()}`));
+    await this.createEnv(templateRepo(`${await this.confirmExtention()}/${(await this.confirmTemplate()).toLowerCase()}`));
 
 
     await Deno.writeTextFile("deno.jsonc",denoJsonc(this.name)).catch((err)=> {
@@ -53,10 +56,8 @@ export default class Api {
     Deno.chdir(`${this.path}/proton-xd`);
     
     
-    this.addProtonXD();
+    await this.addProtonXD();
     
-
-    Wasm.close();
     Deno.writeTextFile("config.json",config(this.name,this.args));
   }
   
@@ -82,9 +83,9 @@ export default class Api {
     }])).value;
   }
 
-  private createEnv=(url: string)=> Wasm.cloneRepo(url,debugPath(Deno.realPathSync("./")));
+  private createEnv=async (url: string)=> sgw.clone(url,debugPath(Deno.realPathSync("./")));
 
-  private addProtonXD() {
+  private async addProtonXD() {
     let ext: "js"|"ts"="ts";
     for(const entity of Deno.readDirSync("../")) {
       if(!entity.name.endsWith(".js")) continue;
@@ -92,7 +93,7 @@ export default class Api {
       ext="js";
       break;
     }
-    Wasm.cloneRepo(root(ext),debugPath(Deno.realPathSync("./")));
+    await sgw.clone(root(ext),debugPath(Deno.realPathSync("./")));
   }
 
   private confirmExtention=async ()=>this.args.get("--ext")??(await prompts([

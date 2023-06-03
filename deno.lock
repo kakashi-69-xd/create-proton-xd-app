@@ -84,6 +84,7 @@
   },
   "npm": {
     "specifiers": {
+      "@powercord/simple-git-wasm": "@powercord/simple-git-wasm@0.1.0",
       "cli-color": "cli-color@2.0.3",
       "keycon": "keycon@1.4.0",
       "prompts": "prompts@2.4.2",
@@ -113,6 +114,10 @@
       },
       "@egjs/component@3.0.4": {
         "integrity": "sha512-sXA7bGbIeLF2OAw/vpka66c6QBBUPcA4UUhR4WGJfnp2XWdiI8QrnJGJMr/UxpE/xnevX9tN3jvNPlW8WkHl3g==",
+        "dependencies": {}
+      },
+      "@powercord/simple-git-wasm@0.1.0": {
+        "integrity": "sha512-CNuxloo9YFmTic2n94u2FlyfDvrtx1wnTnckxqgitMJhWlERC4fa9rqBX6uJhbEOWOMd64U9pGaGLl5AofB6hw==",
         "dependencies": {}
       },
       "@scena/event-emitter@1.0.5": {
